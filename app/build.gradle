@@ -1,0 +1,41 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.graphstudio.calculator'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.graphstudio.calculator"
+        minSdk 24
+        targetSdk 34
+        // versionCode grows automatically with every GitHub build, so a new APK can always be installed over the old one
+        versionCode 1000 + (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInteger()
+        versionName "3.2"
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
